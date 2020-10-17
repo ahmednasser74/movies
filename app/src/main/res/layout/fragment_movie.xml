@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/movie_fragment_rl_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/movie_fragment_pb_loading_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movie_fragment_rv_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movie_fragment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/movie_fragment_lin_progress_load_pages"
+            android:layout_below="@id/movie_fragment_rv_category"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="-655dp"
+            android:scrollbarSize="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbarThumbVertical="@color/colorAccent"
+            android:scrollbars="vertical" />
+
+        <RelativeLayout
+            android:id="@+id/movie_fragment_lin_progress_load_pages"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/albumTransparent"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/movie_fragment_btn_top"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/_8sdp"
+            android:background="@drawable/white_circle"
+            android:src="@drawable/white_arrow_up_24dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/colorAccent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/movie_fragment_fragment_fab_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/_8sdp"
+            android:gravity="bottom|end"
+            android:src="@drawable/red_search_24dp"
+            app:backgroundTint="@color/white" />
+
+        <io.github.yavski.fabspeeddial.FabSpeedDial
+            android:id="@+id/movie_fragment_bottom_fab_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/krona"
+            android:gravity="bottom|start"
+            app:backgroundTint="@color/black"
+            app:fabDrawable="@drawable/red_filter"
+            app:fabGravity="bottom_start"
+            app:fabMenu="@menu/fab_menu"
+            app:miniFabBackgroundTint="@color/white"
+            app:miniFabDrawableTint="?attr/colorPrimaryDark"
+            app:miniFabTitleTextColor="@color/black" />
+
+    </RelativeLayout>
+</layout>

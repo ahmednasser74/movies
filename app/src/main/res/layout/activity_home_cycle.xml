@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/home_cycle_activity_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/home_cycle_activity_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorAccent"
+                app:title=""
+                app:titleTextColor="@color/white" />
+
+            <FrameLayout
+                android:id="@+id/home_cycle_activity_fl_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/home_cycle_activity_tool_bar" />
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/home_cycle_activity_nav_view"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/fragment_navigation_drawer"
+            app:menu="@menu/navigation_drawer_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

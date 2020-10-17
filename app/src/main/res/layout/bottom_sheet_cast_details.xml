@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_sheet_language_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_300sdp"
+    android:background="@color/gray">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/white_shape"
+                android:backgroundTint="#605F5F" />
+
+            <LinearLayout
+                android:id="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/_10sdp">
+
+                    <ImageView
+                        android:id="@+id/bottom_sheet_cast_details_actor_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bottom_sheet_cast_details_actor_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo"
+                        android:text="actor name"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/bottom_sheet_cast_details_actor_birth_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo"
+                        android:text="actor birth date"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/bottom_sheet_cast_details_actor_place_of_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo"
+                        android:text="actor place of birth"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:autoLink="all"
+                            android:clickable="true"
+                            android:fontFamily="@font/cairo"
+                            android:text="Imdb Profile : "
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bottom_sheet_cast_details_actor_imdb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:autoLink="all"
+                            android:clickable="true"
+                            android:fontFamily="@font/cairo"
+                            android:text="imdb Link"
+                            android:textColor="@color/blue"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lin"
+                android:layout_marginHorizontal="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:background="@drawable/white_shape"
+                    android:backgroundTint="#5E5E5E" />
+
+                <TextView
+                    android:id="@+id/bottom_sheet_cast_details_actor_bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo"
+                    android:text="actor bio"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

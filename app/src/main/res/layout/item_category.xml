@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.example.moviesapp.data.model.moviesCategory.MovieCategoryData" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/item_category_lin"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_3sdp"
+            android:background="@drawable/black_stroke_shape"
+            android:gravity="center"
+            app:elevation="5dp">
+
+            <TextView
+                android:id="@+id/item_category_tv_category_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo"
+                android:text="@{model.name}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10ssp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

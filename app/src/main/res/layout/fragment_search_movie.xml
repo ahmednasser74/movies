@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <SearchView
+            android:id="@+id/movie_fragment_sv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:background="@drawable/black_stroke_shape" />
+
+        <TextView
+            android:id="@+id/movie_fragment_tv_no_movie_matched"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="No Movies Matched"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_20ssp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_movie_fragment_rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/movie_fragment_sv_search"
+            android:scrollbarSize="5dp"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbarThumbVertical="@color/colorAccent"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/search_movie_fragment_tv_no_result"
+            android:fontFamily="@font/cairo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No Results  Matched"
+            android:textColor="@color/colorAccent"
+            android:visibility="gone"
+            android:textSize="@dimen/_20sdp" />
+    </RelativeLayout>
+</layout>

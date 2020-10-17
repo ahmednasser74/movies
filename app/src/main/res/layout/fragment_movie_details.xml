@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/movie_details_fragment_collapsing_tool_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@color/colorAccent"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/movie_details_fragment_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/app_logo"
+                    android:transitionName="fragment_transition" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/movie_details_fragment_tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/movie_details_fragment_fab_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/red_favorite_outline_24dp"
+            app:backgroundTint="@color/white"
+            app:layout_anchor="@id/app_bar_layout"
+            app:layout_anchorGravity="bottom|right|end" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/movie_details_fragment_tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo"
+                    android:text="Date"
+                    android:textSize="@dimen/_14ssp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@color/gray_darker" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/movie_details_fragment_tv_recommend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo"
+                        android:text="recommend"
+                        android:textSize="@dimen/_14ssp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@color/gray_darker" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo"
+                    android:text="Overview"
+                    android:textSize="@dimen/_20ssp" />
+
+                <TextView
+                    android:id="@+id/movie_details_fragment_tv_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo"
+                    android:text="Overview"
+                    android:textSize="@dimen/_14ssp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@color/gray_darker" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo"
+                    android:text="Cast"
+                    android:textSize="@dimen/_20ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_details_fragment_rv_cast"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@color/gray_darker" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo"
+                    android:text="Trailer"
+                    android:textSize="@dimen/_20ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_details_fragment_rv_trailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@color/gray_darker" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo"
+                    android:text="Review"
+                    android:textSize="@dimen/_20ssp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/movie_details_fragment_tv_review_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo"
+                        android:text="No Review For This movie"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_20ssp"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/movie_details_fragment_rv_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/item_review" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="General">
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/nav_home"
+                    android:icon="@drawable/ic_home"
+                    android:iconTint="@color/colorAccent"
+                    android:title="Home" />
+                <item
+
+                    android:id="@+id/nav_dark"
+                    android:icon="@drawable/red_moon"
+                    android:iconTint="@color/colorAccent"
+                    android:title="Dark Mode" />
+                <item
+                    android:id="@+id/nav_favourite"
+                    android:icon="@drawable/red_favorite_24dp"
+                    android:iconTint="@color/colorAccent"
+                    android:title="Favourite" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Communicate">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_share"
+                    android:iconTint="@color/colorAccent"
+                    android:title="Share" />
+                <item
+                    android:id="@+id/nav_about_app"
+                    android:icon="@drawable/ic_info_outline"
+                    android:iconTint="@color/colorAccent"
+                    android:title="About App" />
+            </group>
+        </menu>
+    </item>
+
+</menu>
