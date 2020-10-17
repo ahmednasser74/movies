@@ -1,4 +1,5 @@
 package com.example.moviesapp.view.fragment;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.IntentFilter;

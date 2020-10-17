@@ -15,10 +15,11 @@
             android:background="@drawable/white_shape"
             app:cardCornerRadius="@dimen/_20sdp"
             app:cardElevation="@dimen/_3sdp">
+
             <ProgressBar
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
             <ImageView
                 android:id="@+id/item_movie_img"
@@ -110,6 +111,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@id/item_movie_img_remove"
                     android:background="@drawable/white_shape"
+                    android:padding="@dimen/_2sdp"
                     android:src="@drawable/ic_share" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
