@@ -12,7 +12,7 @@ also allow to you search on any movie you want and get a profile of the movie wi
 
 Finally, You can add and remove any movie to favorite movie list and you can get it in an offline mood and share it with all friends on all social media apps or emails
 
-Technical Usage Tools :
+#Technical Usage Tools :
 -MVVM Design Pattern
 -Databinding 
 -Room 
