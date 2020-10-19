@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.example.moviesapp.view.acitivty.base.BaseActivity;
 import com.example.moviesapp.view.acitivty.base.BaseFragments;
 import com.example.moviesapp.view.acitivty.HomeCycleActivity;
 import com.example.moviesapp.view.viewModel.MovieViewModel;
+import com.example.moviesapp.view.viewModel.SearchViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +46,13 @@ public class MovieSearchFragment extends BaseFragments {
     private List<MovieData> movieDataList = new ArrayList<>();
     private MovieAdapter movieAdapter;
     private GridLayoutManager linearLayoutManager;
-    private MovieViewModel movieViewModel;
     private HomeCycleActivity homeCycleActivity;
-    private FragmentSearchMovieBinding fragmentSearchMovieBinding;
     private int paginationPage = 1;
     private String search;
+
+    private SearchViewModel searchViewModel;
+    private FragmentSearchMovieBinding fragmentSearchMovieBinding;
+    private MovieViewModel movieViewModel;
 
     public MovieSearchFragment() {
     }
@@ -68,14 +72,15 @@ public class MovieSearchFragment extends BaseFragments {
         homeCycleActivity = (HomeCycleActivity) getActivity();
         homeCycleActivity.setVisibilityToolBar(View.GONE);
         homeCycleActivity.cancelDrawerSwipe();
+        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
         movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
 
         setLayout();
         onBtnClick();
         queryMovie();
+        loadSearchMovie();
         HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
         HelperMethod.dismissProgressDialog();
-
         return view;
     }
 
@@ -87,14 +92,14 @@ public class MovieSearchFragment extends BaseFragments {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 paginationPage++;
                 movieViewModel.getMovies(paginationPage, POPULAR);
-                searchMovie(search, paginationPage);
+                searchViewModel.searchMovie(search, paginationPage);
             }
         });
 
         movieAdapter = new MovieAdapter((BaseActivity) getActivity(), movieDataList);
         fragmentSearchMovieBinding.searchMovieFragmentRvSearch.setAdapter(movieAdapter);
 
-        searchMovie(search, paginationPage);
+        searchViewModel.searchMovie(search, paginationPage);
     }
 
     private void queryMovie() {
@@ -104,14 +109,14 @@ public class MovieSearchFragment extends BaseFragments {
                 search = query;
                 fragmentSearchMovieBinding.movieFragmentSvSearch.focusableViewAvailable(fragmentSearchMovieBinding.movieFragmentSvSearch);
                 if (isNetworkConnected(getActivity())) {
-                    searchMovie(search, paginationPage);
+                    searchViewModel.searchMovie(search, paginationPage);
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchMovie(newText, paginationPage);
+                searchViewModel.searchMovie(newText, paginationPage);
                 return false;
             }
         });
@@ -127,34 +132,23 @@ public class MovieSearchFragment extends BaseFragments {
         });
     }
 
-    private String searchMovie(String query, int page) {
-        getClient().getMovieWithFilter(API_KEY, query, page).enqueue(new Callback<MoviesWithFilter>() {
+    private void loadSearchMovie() {
+        searchViewModel.searchMutableLiveData.observe(getActivity(), new Observer<MoviesWithFilter>() {
             @Override
-            public void onResponse(Call<MoviesWithFilter> call, Response<MoviesWithFilter> response) {
-                try {
-                    if (response.body() != null) {
-                        movieDataList.clear();
-                        movieAdapter.addAll(response.body().getResults());
+            public void onChanged(MoviesWithFilter moviesWithFilter) {
+                moviesWithFilter.getResults().clear();
 
-                        if (movieDataList.isEmpty()) {
-                            fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.VISIBLE);
-                        } else {
-                            fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.GONE);
-                        }
-                        movieAdapter.notifyDataSetChanged();
-                        Log.wtf("listSize", String.valueOf(movieDataList.size()));
-                        Log.wtf("onResponseSearch ", String.valueOf(response.body()));
-                    }
-                } catch (Exception e) {
-                    Log.wtf("filterException", e.toString());
+                if (moviesWithFilter.getResults().isEmpty()) {
+                    fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.VISIBLE);
+                } else {
+                    fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.GONE);
                 }
-            }
+                movieAdapter.notifyDataSetChanged();
+                Log.wtf("listSize", String.valueOf(movieDataList.size()));
+                Log.wtf("listSizeFromViewModel", String.valueOf(moviesWithFilter.getResults()));
 
-            @Override
-            public void onFailure(Call<MoviesWithFilter> call, Throwable t) {
             }
         });
-        return query;
     }
 
     private void onBtnClick() {
