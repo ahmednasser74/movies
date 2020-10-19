@@ -145,7 +145,7 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
     private void loadMovie() {
         movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
 
-        movieViewModel.movieMutableLiveData.observe(getActivity(), new Observer<MoviesModel>() {
+        movieViewModel.movieMutableLiveData().observe(getActivity(), new Observer<MoviesModel>() {
             @Override
             public void onChanged(MoviesModel moviesModel) {
                 HelperMethod.dismissProgressDialog();

@@ -1,4 +1,4 @@
-package com.example.moviesapp.view.fragment;
+package com.example.moviesapp.view.acitivty.base;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

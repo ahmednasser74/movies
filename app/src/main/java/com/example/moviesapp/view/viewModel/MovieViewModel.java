@@ -25,7 +25,6 @@ public class MovieViewModel extends ViewModel {
     private MutableLiveData<MoviesCategory> moviesCategoryMutableLiveData = new MutableLiveData<>();
 
     public void getMovies(int page, String list) {
-
         getClient().getMovie(list, API_KEY, page).enqueue(new Callback<MoviesModel>() {
             @Override
             public void onResponse(Call<MoviesModel> call, Response<MoviesModel> response) {
@@ -35,7 +34,6 @@ public class MovieViewModel extends ViewModel {
 
                 }
             }
-
             @Override
             public void onFailure(Call<MoviesModel> call, Throwable t) {
 
