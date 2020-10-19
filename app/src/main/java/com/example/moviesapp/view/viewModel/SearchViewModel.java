@@ -21,13 +21,14 @@ public class SearchViewModel extends ViewModel {
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData = new MutableLiveData<>();
 
-    public String searchMovie(String query, int page) {
+    public void searchMovie(String query, int page) {
         getClient().getMovieWithFilter(API_KEY, query, page).enqueue(new Callback<MoviesWithFilter>() {
             @Override
             public void onResponse(Call<MoviesWithFilter> call, Response<MoviesWithFilter> response) {
                 try {
                     if (response.body() != null) {
                         searchMutableLiveData.setValue(response.body());
+                        Log.wtf("searchResponse",String.valueOf(response.body()));
                     }
                 } catch (Exception e) {
                     Log.wtf("filterException", e.toString());
@@ -38,7 +39,6 @@ public class SearchViewModel extends ViewModel {
             public void onFailure(Call<MoviesWithFilter> call, Throwable t) {
             }
         });
-        return query;
     }
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData() {

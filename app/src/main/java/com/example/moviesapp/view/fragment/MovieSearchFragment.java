@@ -48,11 +48,10 @@ public class MovieSearchFragment extends BaseFragments {
     private GridLayoutManager linearLayoutManager;
     private HomeCycleActivity homeCycleActivity;
     private int paginationPage = 1;
-    private String search;
 
     private SearchViewModel searchViewModel;
-    private FragmentSearchMovieBinding fragmentSearchMovieBinding;
     private MovieViewModel movieViewModel;
+    private FragmentSearchMovieBinding fragmentSearchMovieBinding;
 
     public MovieSearchFragment() {
     }
@@ -79,7 +78,7 @@ public class MovieSearchFragment extends BaseFragments {
         onBtnClick();
         queryMovie();
         loadSearchMovie();
-        HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
+//        HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
         HelperMethod.dismissProgressDialog();
         return view;
     }
@@ -87,36 +86,34 @@ public class MovieSearchFragment extends BaseFragments {
     private void setLayout() {
         linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         fragmentSearchMovieBinding.searchMovieFragmentRvSearch.setLayoutManager(linearLayoutManager);
-        fragmentSearchMovieBinding.searchMovieFragmentRvSearch.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                paginationPage++;
-                movieViewModel.getMovies(paginationPage, POPULAR);
-                searchViewModel.searchMovie(search, paginationPage);
-            }
-        });
+//        fragmentSearchMovieBinding.searchMovieFragmentRvSearch.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+//                paginationPage++;
+//                movieViewModel.getMovies(paginationPage, POPULAR);
+//                searchViewModel.searchMovie(search, paginationPage);
+//            }
+//        });
 
         movieAdapter = new MovieAdapter((BaseActivity) getActivity(), movieDataList);
         fragmentSearchMovieBinding.searchMovieFragmentRvSearch.setAdapter(movieAdapter);
 
-        searchViewModel.searchMovie(search, paginationPage);
+//        searchViewModel.searchMovie(search, paginationPage);
     }
 
     private void queryMovie() {
         fragmentSearchMovieBinding.movieFragmentSvSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                search = query;
-                fragmentSearchMovieBinding.movieFragmentSvSearch.focusableViewAvailable(fragmentSearchMovieBinding.movieFragmentSvSearch);
                 if (isNetworkConnected(getActivity())) {
-                    searchViewModel.searchMovie(search, paginationPage);
+                    searchViewModel.searchMovie(query, 1);
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchViewModel.searchMovie(newText, paginationPage);
+                searchViewModel.searchMovie(newText, 1);
                 return false;
             }
         });
@@ -136,9 +133,10 @@ public class MovieSearchFragment extends BaseFragments {
         searchViewModel.searchMutableLiveData.observe(getActivity(), new Observer<MoviesWithFilter>() {
             @Override
             public void onChanged(MoviesWithFilter moviesWithFilter) {
-                moviesWithFilter.getResults().clear();
+                movieDataList.clear();
+                movieDataList.addAll(moviesWithFilter.getResults());
 
-                if (moviesWithFilter.getResults().isEmpty()) {
+                if (movieDataList.isEmpty()) {
                     fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.VISIBLE);
                 } else {
                     fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.GONE);
