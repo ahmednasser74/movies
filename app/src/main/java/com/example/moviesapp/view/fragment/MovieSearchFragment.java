@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,30 +13,22 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviesapp.R;
 import com.example.moviesapp.adapter.MovieAdapter;
 import com.example.moviesapp.data.model.moviesModel.MovieData;
 import com.example.moviesapp.data.model.moviesWithFilter.MoviesWithFilter;
 import com.example.moviesapp.databinding.FragmentSearchMovieBinding;
-import com.example.moviesapp.helper.EndlessRecyclerViewScrollListener;
 import com.example.moviesapp.helper.HelperMethod;
 import com.example.moviesapp.view.acitivty.base.BaseActivity;
 import com.example.moviesapp.view.acitivty.base.BaseFragments;
 import com.example.moviesapp.view.acitivty.HomeCycleActivity;
 import com.example.moviesapp.view.viewModel.MovieViewModel;
-import com.example.moviesapp.view.viewModel.SearchViewModel;
+import com.example.moviesapp.view.viewModel.MovieSearchViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.example.moviesapp.data.api.ApiClient.getClient;
-import static com.example.moviesapp.helper.Constant.API_KEY;
 import static com.example.moviesapp.helper.Constant.POPULAR;
 import static com.example.moviesapp.helper.HelperMethod.isNetworkConnected;
 
@@ -49,7 +40,7 @@ public class MovieSearchFragment extends BaseFragments {
     private HomeCycleActivity homeCycleActivity;
     private int paginationPage = 1;
 
-    private SearchViewModel searchViewModel;
+    private MovieSearchViewModel searchViewModel;
     private MovieViewModel movieViewModel;
     private FragmentSearchMovieBinding fragmentSearchMovieBinding;
 
@@ -71,7 +62,7 @@ public class MovieSearchFragment extends BaseFragments {
         homeCycleActivity = (HomeCycleActivity) getActivity();
         homeCycleActivity.setVisibilityToolBar(View.GONE);
         homeCycleActivity.cancelDrawerSwipe();
-        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        searchViewModel = ViewModelProviders.of(getActivity()).get(MovieSearchViewModel.class);
         movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
 
         setLayout();

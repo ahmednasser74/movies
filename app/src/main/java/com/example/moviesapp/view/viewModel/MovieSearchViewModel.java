@@ -17,7 +17,7 @@ import retrofit2.Response;
 import static com.example.moviesapp.data.api.ApiClient.getClient;
 import static com.example.moviesapp.helper.Constant.API_KEY;
 
-public class SearchViewModel extends ViewModel {
+public class MovieSearchViewModel extends ViewModel {
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData = new MutableLiveData<>();
 

@@ -37,7 +37,7 @@ public interface ApiService {
                                  @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/videos")
-    Call<MoviesTrailer> getMovieTrailer(@Path("movie_id") String movie_id,
+    Call<MoviesTrailer> getMovieTrailer(@Path("movie_id") String movieId,
                                         @Query("api_key") String apiKey);
 
     @GET("genre/movie/list")

@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +35,7 @@ import com.example.moviesapp.helper.HelperMethod;
 import com.example.moviesapp.view.acitivty.base.BaseActivity;
 import com.example.moviesapp.view.acitivty.base.BaseFragments;
 import com.example.moviesapp.view.acitivty.HomeCycleActivity;
+import com.example.moviesapp.view.viewModel.MovieDetailsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,6 @@ import static com.example.moviesapp.data.local.Room.RoomManger.getInstance;
 import static com.example.moviesapp.helper.Constant.API_KEY;
 import static com.example.moviesapp.helper.Constant.IMAGE_URL;
 import static com.example.moviesapp.helper.HelperMethod.onLoadImageFromUrl;
-import static com.example.moviesapp.helper.HelperMethod.showSnackBar;
 import static com.example.moviesapp.helper.sharedPreference.LoadBoolean;
 import static com.example.moviesapp.helper.sharedPreference.SaveData;
 import static com.example.moviesapp.helper.sharedPreference.setSharedPreferences;
@@ -70,6 +72,7 @@ public class MovieDetailsFragment extends BaseFragments {
     private boolean isFavorite = false;
     private static String FAVORITE_ITEM = "FAVORITE_ITEM";
 
+    private MovieDetailsViewModel movieDetailsViewModel;
     private FragmentMovieDetailsBinding fragmentMovieDetailsBinding;
 
     public MovieDetailsFragment() {
@@ -91,14 +94,19 @@ public class MovieDetailsFragment extends BaseFragments {
         homeCycleActivity.setVisibilityToolBar(View.GONE);
         homeCycleActivity.cancelDrawerSwipe();
 
+        movieDetailsViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailsViewModel.class);
+
         roomDao = getInstance(getActivity()).roomDao();
 
         getDate();
         initReview();
         initTrailer();
         initCast();
+        getMovieTrailer();
+        getMovieReview();
+        getMovieCast();
 
-        Log.wtf( "LoadFavorite", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
+        Log.wtf("LoadFavorite", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
 
         fragmentMovieDetailsBinding.movieDetailsFragmentFabFav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,33 +125,20 @@ public class MovieDetailsFragment extends BaseFragments {
 
         castAdapter = new CastAdapter((BaseActivity) getActivity(), movieCastDataList);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
-        getMovieCast();
+        movieDetailsViewModel.getMoviesCast(movieData.getId());
     }
 
     private void getMovieCast() {
-        getClient().getMovieCast(movieData.getId(), API_KEY).enqueue(new Callback<MovieCast>() {
+        movieDetailsViewModel.movieCastMutableLiveData.observe(getActivity(), new Observer<MovieCast>() {
             @Override
-            public void onResponse(Call<MovieCast> call, Response<MovieCast> response) {
-                try {
-                    if (response.body() != null) {
-                        movieCastDataList.addAll(response.body().getCast());
-
-                        if (movieReviewList.size() == 0) {
-                            fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.VISIBLE);
-                        } else {
-                            fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.GONE);
-                        }
-
-                    }
-                    castAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-
+            public void onChanged(MovieCast movieCast) {
+                movieCastDataList.addAll(movieCast.getCast());
+                if (movieReviewList.size() == 0) {
+                    fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.GONE);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<MovieCast> call, Throwable t) {
-
+                castAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -155,24 +150,20 @@ public class MovieDetailsFragment extends BaseFragments {
 
         reviewAdapter = new ReviewAdapter((BaseActivity) getActivity(), movieReviewList);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvReview.setAdapter(reviewAdapter);
-        getMovieReview();
+
+        movieDetailsViewModel.getMoviesReview(movieData.getId());
     }
 
     private void getMovieReview() {
-        getClient().getMovieReview(movieData.getId(), API_KEY).enqueue(new Callback<MoviesReview>() {
+        movieDetailsViewModel.moviesReviewMutableLiveData.observe(getActivity(), new Observer<MoviesReview>() {
             @Override
-            public void onResponse(Call<MoviesReview> call, Response<MoviesReview> response) {
+            public void onChanged(MoviesReview moviesReview) {
                 try {
-                    movieReviewList.addAll(response.body().getResults());
+                    movieReviewList.addAll(moviesReview.getResults());
                     reviewAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
 
                 }
-            }
-
-            @Override
-            public void onFailure(Call<MoviesReview> call, Throwable t) {
-
             }
         });
     }
@@ -184,24 +175,16 @@ public class MovieDetailsFragment extends BaseFragments {
 
         trailerAdapter = new TrailerAdapter((BaseActivity) getActivity(), movieTrailerDataList);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setAdapter(trailerAdapter);
-        getMovieTrailer();
+
+        movieDetailsViewModel.getTrailer(String.valueOf(movieData.getId()));
     }
 
     private void getMovieTrailer() {
-        getClient().getMovieTrailer(movieData.getId().toString(), API_KEY).enqueue(new Callback<MoviesTrailer>() {
+        movieDetailsViewModel.trailerDataMutableLiveData.observe(getActivity(), new Observer<MoviesTrailer>() {
             @Override
-            public void onResponse(Call<MoviesTrailer> call, Response<MoviesTrailer> response) {
-                try {
-                    movieTrailerDataList.addAll(response.body().getResults());
-                    trailerAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MoviesTrailer> call, Throwable t) {
-
+            public void onChanged(MoviesTrailer moviesTrailer) {
+                movieTrailerDataList.addAll(moviesTrailer.getResults());
+                trailerAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -245,13 +228,13 @@ public class MovieDetailsFragment extends BaseFragments {
     private void toggleFavorite() {
         if (!isFavorite) {
             insertFavMovie();
-            Log.wtf( "LoadFavoriteInsert", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
+            Log.wtf("LoadFavoriteInsert", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
 
         } else {
             removedFavMovie();
-            Log.wtf( "LoadFavoriteRemove", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
+            Log.wtf("LoadFavoriteRemove", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
         }
-        System.out.print(LoadBoolean(getActivity(),FAVORITE_ITEM));
+        System.out.print(LoadBoolean(getActivity(), FAVORITE_ITEM));
     }
 
     private void insertFavMovie() {
