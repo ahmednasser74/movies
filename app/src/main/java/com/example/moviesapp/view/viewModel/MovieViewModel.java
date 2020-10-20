@@ -8,13 +8,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.moviesapp.data.model.moviesCategory.MoviesCategory;
 import com.example.moviesapp.data.model.moviesModel.MoviesModel;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.example.moviesapp.data.api.ApiClient.getClient;
 import static com.example.moviesapp.helper.Constant.API_KEY;
@@ -72,18 +68,13 @@ public class MovieViewModel extends ViewModel {
 //        };
     }
 
+    @SuppressLint("CheckResult")
     public void getMoviesCategory() {
-        getClient().getMovieCategory(API_KEY).enqueue(new Callback<MoviesCategory>() {
-            @Override
-            public void onResponse(Call<MoviesCategory> call, Response<MoviesCategory> response) {
-                moviesCategoryMutableLiveData.setValue(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<MoviesCategory> call, Throwable t) {
-
-            }
-        });
+        Observable<MoviesCategory> observable = getClient().getMovieCategory(API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(o -> moviesCategoryMutableLiveData.setValue(o)
+                , e -> Log.d(TAG, "getMoviesCategory() onError: " + e));
     }
 
     public MutableLiveData<MoviesModel> movieMutableLiveData() {

@@ -57,6 +57,9 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class HelperMethod {
+    private HelperMethod() {
+        //to close access on this class to can't make objects
+    }
 
     private static ProgressDialog checkDialog;
     public static AlertDialog alertDialog;

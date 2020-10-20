@@ -25,7 +25,7 @@ public interface ApiService {
                                      @Query("page") int page);
 
     @GET("genre/movie/list")
-    Call<MoviesCategory> getMovieCategory(@Query("api_key") String apiKey);
+    Observable<MoviesCategory> getMovieCategory(@Query("api_key") String apiKey);
 
     @GET("search/movie")
     Call<MoviesWithFilter> getMovieWithFilter(@Query("api_key") String apiKey,
