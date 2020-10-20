@@ -101,6 +101,8 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
         floatBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRv, fragmentMovieBinding.movieFragmentFragmentFabSearch);
         floatMenuBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRv, fragmentMovieBinding.movieFragmentBottomFabMenu);
 
+        movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
+
         setLayout();
         initFabMenu();
         onBtnCLickListener();
@@ -133,6 +135,7 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
         });
         movieAdapter = new MovieAdapter((BaseActivity) getActivity(), movieDataList);
         fragmentMovieBinding.movieFragmentRv.setAdapter(movieAdapter);
+        movieViewModel.getMovies(paginationPage, POPULAR);
 
 
         linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
@@ -143,8 +146,6 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
     }
 
     private void loadMovie() {
-        movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
-
         movieViewModel.movieMutableLiveData().observe(getActivity(), new Observer<MoviesModel>() {
             @Override
             public void onChanged(MoviesModel moviesModel) {
@@ -156,7 +157,6 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
                 movieAdapter.notifyDataSetChanged();
             }
         });
-        movieViewModel.getMovies(paginationPage, POPULAR);
     }
 
     private void loadMovieCategory() {

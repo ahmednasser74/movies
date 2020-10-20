@@ -8,6 +8,7 @@ import com.example.moviesapp.data.model.moviesReview.MoviesReview;
 import com.example.moviesapp.data.model.moviesTrailer.MoviesTrailer;
 import com.example.moviesapp.data.model.moviesWithFilter.MoviesWithFilter;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -19,9 +20,12 @@ public interface ApiService {
 //                                     @Query("api_key") String apiKey,
 //                                     @Query("page") int page);
     @GET("movie/{list_type}")
-    Call<MoviesModel> getMovie(@Path("list_type") String listType,
-                               @Query("api_key") String apiKey,
-                               @Query("page") int page);
+    Observable<MoviesModel> getMovie(@Path("list_type") String listType,
+                                     @Query("api_key") String apiKey,
+                                     @Query("page") int page);
+
+    @GET("genre/movie/list")
+    Call<MoviesCategory> getMovieCategory(@Query("api_key") String apiKey);
 
     @GET("search/movie")
     Call<MoviesWithFilter> getMovieWithFilter(@Query("api_key") String apiKey,
@@ -39,9 +43,6 @@ public interface ApiService {
     @GET("movie/{movie_id}/videos")
     Call<MoviesTrailer> getMovieTrailer(@Path("movie_id") String movieId,
                                         @Query("api_key") String apiKey);
-
-    @GET("genre/movie/list")
-    Call<MoviesCategory> getMovieCategory(@Query("api_key") String apiKey);
 
     @GET("person/{person_id}")
     Call<CastDetails> getMovieCastDetails(@Path("person_id") int movieId,
