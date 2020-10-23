@@ -38,12 +38,11 @@ public class MovieViewModel extends ViewModel {
 
         observable.subscribe(o -> movieMutableLiveData.setValue(o),
                 e -> Log.d(TAG, "onError: " + e));
-
-        /**
-         * el line ely fo2 da e5tsar ll observer elkber
-         * o-> ana b7ot el value as object bs b3ml observable mn movie model 3shan y3rf howa hyrg3 anhy object fel data
-         * w e-> de hyrg3 feha el error lama ykon feh ay errors
-         * */
+/**
+* el line ely fo2 da e5tsar ll observer elkber
+* o-> ana b7ot el value as object bs b3ml observable mn movie model 3shan y3rf howa hyrg3 anhy object fel data
+* w e-> de hyrg3 feha el error lama ykon feh ay errors
+* */
 
 //        Observer<MoviesModel> observer = new Observer<MoviesModel>() {
 //            @Override
@@ -70,9 +69,12 @@ public class MovieViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getMoviesCategory() {
-        Observable<MoviesCategory> observable = getClient().getMovieCategory(API_KEY)
+
+        Observable<MoviesCategory> observable = getClient()
+                .getMovieCategory(API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
         observable.subscribe(o -> moviesCategoryMutableLiveData.setValue(o)
                 , e -> Log.d(TAG, "getMoviesCategory() onError: " + e));
     }
