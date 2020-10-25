@@ -14,9 +14,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.HttpException;
-import retrofit2.http.HTTP;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.example.moviesapp.data.api.ApiClient.getClient;
@@ -33,7 +30,8 @@ public class MovieSearchViewModel extends ViewModel {
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread());
         observable.subscribe(o -> searchMutableLiveData.setValue(o),
-                e -> Log.d(TAG, "searchMovie: " + e));
+                e -> Log.wtf(TAG, "searchMovie: " + e));
+
         Observer<MoviesWithFilter> observer = new Observer<MoviesWithFilter>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -55,6 +53,7 @@ public class MovieSearchViewModel extends ViewModel {
 
             }
         };
+
     }
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData() {
