@@ -32,28 +32,6 @@ public class MovieSearchViewModel extends ViewModel {
         observable.subscribe(o -> searchMutableLiveData.setValue(o),
                 e -> Log.wtf(TAG, "searchMovie: " + e));
 
-        Observer<MoviesWithFilter> observer = new Observer<MoviesWithFilter>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(MoviesWithFilter moviesWithFilter) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        };
-
     }
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData() {
