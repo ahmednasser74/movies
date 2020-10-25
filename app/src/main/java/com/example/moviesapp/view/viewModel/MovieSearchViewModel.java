@@ -1,19 +1,24 @@
 package com.example.moviesapp.view.viewModel;
 
+
+import android.annotation.SuppressLint;
 import android.util.Log;
-import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.moviesapp.data.model.moviesCategory.MoviesCategory;
-import com.example.moviesapp.data.model.moviesModel.MoviesModel;
 import com.example.moviesapp.data.model.moviesWithFilter.MoviesWithFilter;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
+import retrofit2.http.HTTP;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.example.moviesapp.data.api.ApiClient.getClient;
 import static com.example.moviesapp.helper.Constant.API_KEY;
 
@@ -21,24 +26,35 @@ public class MovieSearchViewModel extends ViewModel {
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData = new MutableLiveData<>();
 
+    @SuppressLint("CheckResult")
     public void searchMovie(String query, int page) {
-        getClient().getMovieWithFilter(API_KEY, query, page).enqueue(new Callback<MoviesWithFilter>() {
+        Observable<MoviesWithFilter> observable = getClient()
+                .getMovieWithFilter(API_KEY, query, page)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(o -> searchMutableLiveData.setValue(o),
+                e -> Log.d(TAG, "searchMovie: " + e));
+        Observer<MoviesWithFilter> observer = new Observer<MoviesWithFilter>() {
             @Override
-            public void onResponse(Call<MoviesWithFilter> call, Response<MoviesWithFilter> response) {
-                try {
-                    if (response.body() != null) {
-                        searchMutableLiveData.setValue(response.body());
-                        Log.wtf("searchResponse",String.valueOf(response.body()));
-                    }
-                } catch (Exception e) {
-                    Log.wtf("filterException", e.toString());
-                }
+            public void onSubscribe(Disposable d) {
+
             }
 
             @Override
-            public void onFailure(Call<MoviesWithFilter> call, Throwable t) {
+            public void onNext(MoviesWithFilter moviesWithFilter) {
+
             }
-        });
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
     }
 
     public MutableLiveData<MoviesWithFilter> searchMutableLiveData() {

@@ -39,6 +39,12 @@ public class MovieViewModel extends ViewModel {
         observable.subscribe(o -> movieMutableLiveData.setValue(o),
                 e -> Log.d(TAG, "onError: " + e));
 /**
+*
+* subscribeOn(Schedulers.io()) We want the Observables to live on the io thread so they will not block
+* the UI thread of Android. More about threading here.
+* observeOn(AndroidSchedulers.mainThread()) Here we say where we want our final data to be served.
+* We want to populate a ListView which naturally lives on the mainThread so we will observer for the data there.
+ *
 * el line ely fo2 da e5tsar ll observer elkber
 * o-> ana b7ot el value as object bs b3ml observable mn movie model 3shan y3rf howa hyrg3 anhy object fel data
 * w e-> de hyrg3 feha el error lama ykon feh ay errors
@@ -52,17 +58,19 @@ public class MovieViewModel extends ViewModel {
 //
 //            @Override
 //            public void onNext(MoviesModel value) {
+//              when response carrying a data from response which added to our list
 //                movieMutableLiveData.postValue(value);
 //            }
 //
 //            @Override
 //            public void onError(Throwable e) {
-//                Log.wtf(TAG, "onError" + e);
+//            when response has error
+//            Log.wtf(TAG, "onError" + e);
 //            }
 //
 //            @Override
 //            public void onComplete() {
-//
+//              when response complete
 //            }
 //        };
     }
