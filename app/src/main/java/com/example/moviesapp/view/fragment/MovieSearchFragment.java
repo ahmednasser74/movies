@@ -59,7 +59,7 @@ public class MovieSearchFragment extends BaseFragments {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, 
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         fragmentSearchMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_movie, container, false);
@@ -147,9 +147,6 @@ public class MovieSearchFragment extends BaseFragments {
                     fragmentSearchMovieBinding.movieFragmentTvNoMovieMatched.setVisibility(View.GONE);
                 }
                 movieAdapter.notifyDataSetChanged();
-                Log.wtf("listSize", String.valueOf(movieDataList.size()));
-                Log.wtf("listSizeFromViewModel", String.valueOf(moviesWithFilter.getResults()));
-
             }
         });
     }
