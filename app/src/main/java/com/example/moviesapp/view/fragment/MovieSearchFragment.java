@@ -163,27 +163,6 @@ public class MovieSearchFragment extends BaseFragments {
                 fragmentSearchMovieBinding.movieFragmentSvSearch.setBackgroundResource(R.drawable.white_stroke_shape);
                 break;
         }
-
-
-//        fragmentSearchMovieBinding.searchMovieFragmentEtSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (fragmentSearchMovieBinding.searchMovieFragmentEtSearch.getText().length() > 0) {
-//                    fragmentSearchMovieBinding.searchMovieFragmentImgClearEt.setVisibility(View.VISIBLE);
-//                } else {
-//                    fragmentSearchMovieBinding.searchMovieFragmentImgClearEt.setVisibility(View.GONE);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
     }
 
     @Override
