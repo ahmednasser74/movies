@@ -11,11 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <SearchView
+            android:iconifiedByDefault="false"
+            android:queryHint="Search"
             android:id="@+id/movie_fragment_sv_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_6sdp"
-            android:background="@drawable/black_stroke_shape" />
+            android:background="@drawable/white_stroke_shape" />
 
         <TextView
             android:id="@+id/movie_fragment_tv_no_movie_matched"

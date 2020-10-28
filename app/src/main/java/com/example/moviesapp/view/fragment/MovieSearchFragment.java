@@ -1,11 +1,17 @@
 package com.example.moviesapp.view.fragment;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,7 +75,8 @@ public class MovieSearchFragment extends BaseFragments {
         onBtnClick();
         queryMovie();
         loadSearchMovie();
-//        HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
+
+        HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
         HelperMethod.dismissProgressDialog();
         return view;
     }
@@ -104,7 +111,14 @@ public class MovieSearchFragment extends BaseFragments {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchViewModel.searchMovie(newText, 1);
+//                if (fragmentSearchMovieBinding.movieFragmentSvSearch.getQuery().length() > 0) {
+                    searchViewModel.searchMovie(newText, 1);
+//                    Log.wtf("queryLength", "!=" + fragmentSearchMovieBinding.movieFragmentSvSearch.getQuery().length());
+//                } else {
+//                    movieViewModel.getMovies(1, POPULAR);
+//                    Log.wtf("queryLength", "=" +
+//                            String.valueOf(fragmentSearchMovieBinding.movieFragmentSvSearch.getQuery().length()));
+//                }
                 return false;
             }
         });
@@ -141,14 +155,16 @@ public class MovieSearchFragment extends BaseFragments {
     }
 
     private void onBtnClick() {
-//        fragmentSearchMovieBinding.searchMovieFragmentImgClearEt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                HelperMethod.showKeyboard(getActivity());
-//                fragmentSearchMovieBinding.searchMovieFragmentEtSearch.getText().clear();
-//
-//            }
-//        });
+        switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                fragmentSearchMovieBinding.movieFragmentSvSearch.setBackgroundResource(R.drawable.black_stroke_shape);
+                break;
+            case Configuration.UI_MODE_NIGHT_NO:
+                fragmentSearchMovieBinding.movieFragmentSvSearch.setBackgroundResource(R.drawable.white_stroke_shape);
+                break;
+        }
+
+
 //        fragmentSearchMovieBinding.searchMovieFragmentEtSearch.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
