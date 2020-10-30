@@ -47,6 +47,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     private List<MovieCastData> movieCastDataList = new ArrayList<>();
     MovieCastData movieCastData;
 
+
     public CastAdapter(BaseActivity activity, List<MovieCastData> movieCastDataList) {
         this.activity = activity;
         this.movieCastDataList = movieCastDataList;
@@ -130,6 +131,11 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
         bottomSheetDialog.setContentView(bottomSheet);
         bottomSheetDialog.show();
+    }
+
+    public void updateList(List list) {
+        movieCastDataList = list;
+        notifyDataSetChanged();
     }
 
     @Override

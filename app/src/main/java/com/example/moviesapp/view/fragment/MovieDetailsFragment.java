@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviesapp.R;
 import com.example.moviesapp.adapter.CastAdapter;
@@ -35,18 +34,14 @@ import com.example.moviesapp.helper.HelperMethod;
 import com.example.moviesapp.view.acitivty.base.BaseActivity;
 import com.example.moviesapp.view.acitivty.base.BaseFragments;
 import com.example.moviesapp.view.acitivty.HomeCycleActivity;
-import com.example.moviesapp.view.viewModel.MovieDetailsViewModel;
+import com.example.moviesapp.view.viewModel.MovieCastViewModel;
+import com.example.moviesapp.view.viewModel.MovieReviewViewModel;
+import com.example.moviesapp.view.viewModel.MovieTrailerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.example.moviesapp.data.api.ApiClient.getClient;
 import static com.example.moviesapp.data.local.Room.RoomManger.getInstance;
-import static com.example.moviesapp.helper.Constant.API_KEY;
 import static com.example.moviesapp.helper.Constant.IMAGE_URL;
 import static com.example.moviesapp.helper.HelperMethod.onLoadImageFromUrl;
 import static com.example.moviesapp.helper.sharedPreference.LoadBoolean;
@@ -72,7 +67,10 @@ public class MovieDetailsFragment extends BaseFragments {
     private boolean isFavorite = false;
     private static String FAVORITE_ITEM = "FAVORITE_ITEM";
 
-    private MovieDetailsViewModel movieDetailsViewModel;
+    private MovieTrailerViewModel movieTrailerViewModel;
+    private MovieCastViewModel movieCastViewModel;
+    private MovieReviewViewModel movieReviewViewModel;
+
     private FragmentMovieDetailsBinding fragmentMovieDetailsBinding;
 
     public MovieDetailsFragment() {
@@ -90,21 +88,25 @@ public class MovieDetailsFragment extends BaseFragments {
         fragmentMovieDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = fragmentMovieDetailsBinding.getRoot();
 
+//        fragmentMovieDetailsBinding.setLifecycleOwner(getActivity());//for LiveData be properly observed
+
         homeCycleActivity = (HomeCycleActivity) getActivity();
         homeCycleActivity.setVisibilityToolBar(View.GONE);
         homeCycleActivity.cancelDrawerSwipe();
 
-        movieDetailsViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailsViewModel.class);
+        movieTrailerViewModel = ViewModelProviders.of(getActivity()).get(MovieTrailerViewModel.class);
+        movieCastViewModel = ViewModelProviders.of(getActivity()).get(MovieCastViewModel.class);
+        movieReviewViewModel = ViewModelProviders.of(getActivity()).get(MovieReviewViewModel.class);
 
         roomDao = getInstance(getActivity()).roomDao();
 
-        getDate();
-        initReview();
-        initTrailer();
-        initCast();
-        getMovieTrailer();
-        getMovieReview();
-        getMovieCast();
+        Log.wtf("detailsFragment", "movieId : " + movieData.getId());
+        getData();
+        setLayout();
+
+        getTrailer();
+        getReview();
+        getCast();
 
         Log.wtf("LoadFavorite", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
 
@@ -118,49 +120,59 @@ public class MovieDetailsFragment extends BaseFragments {
         return view;
     }
 
-    private void initCast() {
-        linearLayoutManagerCast = new LinearLayoutManager(getActivity());
-        linearLayoutManagerCast.setOrientation(LinearLayoutManager.HORIZONTAL);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setLayoutManager(linearLayoutManagerCast);
-
-        castAdapter = new CastAdapter((BaseActivity) getActivity(), movieCastDataList);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
-        movieDetailsViewModel.getMoviesCast(movieData.getId());
-    }
-
-    private void getMovieCast() {
-        movieDetailsViewModel.movieCastMutableLiveData.observe(getActivity(), new Observer<MovieCast>() {
-            @Override
-            public void onChanged(MovieCast movieCast) {
-                movieCastDataList.addAll(movieCast.getCast());
-                if (movieReviewList.size() == 0) {
-                    fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.VISIBLE);
-                } else {
-                    fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.GONE);
-                }
-                castAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private void initReview() {
+    private void setLayout() {
         linearLayoutManagerReview = new LinearLayoutManager(getActivity());
-        linearLayoutManagerReview.setOrientation(RecyclerView.HORIZONTAL);
+        linearLayoutManagerReview.setOrientation(LinearLayoutManager.HORIZONTAL);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvReview.setLayoutManager(linearLayoutManagerReview);
 
         reviewAdapter = new ReviewAdapter((BaseActivity) getActivity(), movieReviewList);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvReview.setAdapter(reviewAdapter);
 
-        movieDetailsViewModel.getMoviesReview(movieData.getId());
+
+        linearLayoutManagerTrailer = new LinearLayoutManager(getActivity());
+        linearLayoutManagerTrailer.setOrientation(LinearLayoutManager.HORIZONTAL);
+        fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setLayoutManager(linearLayoutManagerTrailer);
+
+        trailerAdapter = new TrailerAdapter((BaseActivity) getActivity(), movieTrailerDataList);
+        fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setAdapter(trailerAdapter);
+
+
+        linearLayoutManagerCast = new LinearLayoutManager(getActivity());
+        linearLayoutManagerCast.setOrientation(LinearLayoutManager.HORIZONTAL);
+        fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setLayoutManager(linearLayoutManagerCast);
+
+        castAdapter = new CastAdapter((BaseActivity) getActivity(),movieCastDataList);
+        fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
     }
 
-    private void getMovieReview() {
-        movieDetailsViewModel.moviesReviewMutableLiveData.observe(getActivity(), new Observer<MoviesReview>() {
+    private void getCast() {
+        movieCastViewModel.movieCastMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MovieCast>() {
+            @Override
+            public void onChanged(MovieCast movieCast) {
+                movieCastDataList.clear();
+                movieCastDataList.addAll(movieCast.getCast());
+                castAdapter.notifyDataSetChanged();
+
+                //castAdapter.updateList(movieCast.getCast());
+                Log.d("detailsFragment", "castSize : " + movieCast.getCast().size());
+            }
+        });
+    }
+
+    private void getReview() {
+        movieReviewViewModel.moviesReviewMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesReview>() {
             @Override
             public void onChanged(MoviesReview moviesReview) {
                 try {
                     movieReviewList.addAll(moviesReview.getResults());
+                    if (moviesReview.getResults().isEmpty()) {
+                        fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.VISIBLE);
+                    } else {
+                        fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.GONE);
+                    }
                     reviewAdapter.notifyDataSetChanged();
+                    Log.wtf("detailsFragment", "reviewSize : " + movieTrailerDataList.size());
+
                 } catch (Exception e) {
 
                 }
@@ -168,28 +180,64 @@ public class MovieDetailsFragment extends BaseFragments {
         });
     }
 
-    private void initTrailer() {
-        linearLayoutManagerTrailer = new LinearLayoutManager(getActivity());
-        linearLayoutManagerTrailer.setOrientation(RecyclerView.HORIZONTAL);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setLayoutManager(linearLayoutManagerTrailer);
+    private void getTrailer() {
 
-        trailerAdapter = new TrailerAdapter((BaseActivity) getActivity(), movieTrailerDataList);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setAdapter(trailerAdapter);
-
-        movieDetailsViewModel.getTrailer(String.valueOf(movieData.getId()));
-    }
-
-    private void getMovieTrailer() {
-        movieDetailsViewModel.trailerDataMutableLiveData.observe(getActivity(), new Observer<MoviesTrailer>() {
+        movieTrailerViewModel.trailerDataMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesTrailer>() {
             @Override
             public void onChanged(MoviesTrailer moviesTrailer) {
                 movieTrailerDataList.addAll(moviesTrailer.getResults());
                 trailerAdapter.notifyDataSetChanged();
+                if (movieTrailerDataList.isEmpty()) {
+                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
+                }
+                Log.wtf("detailsFragment", "trailerSize : " + movieTrailerDataList.size());
             }
         });
+        //        getClient().getMovieTrailer(String.valueOf(movieData.getId()), API_KEY).enqueue(new Callback<MoviesTrailer>() {
+//            @Override
+//            public void onResponse(Call<MoviesTrailer> call, Response<MoviesTrailer> response) {
+//                try {
+//                    if (response.body() != null) {
+//                        movieTrailerDataList.addAll(response.body().getResults());
+//                        trailerAdapter.notifyDataSetChanged();
+//                        if (movieTrailerDataList.isEmpty()) {
+//                            fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
+//                        } else {
+//                            fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
+//                        }
+//                        Log.wtf("detailsFragment", "trailerSize : " + movieTrailerDataList.size());
+//                    }
+//                } catch (Exception e) {
+//                    Log.wtf("trailerException", e.toString());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<MoviesTrailer> call, Throwable t) {
+//                Log.wtf("trailerThrowable", t.toString());
+//            }
+//        });
+//
+//        TrailerRepository.trailerDataMutableLiveData(String.valueOf(movieData.getId()));
+
+//        movieTrailerViewModel.trailerDataMutableLiveData(movieData.getId().toString()).observe(getActivity(), new Observer<MoviesTrailer>() {
+//            @Override
+//            public void onChanged(MoviesTrailer moviesTrailer) {
+//                movieTrailerDataList.clear();
+//                movieTrailerDataList.addAll(moviesTrailer.getResults());
+//                if (moviesTrailer.getResults().isEmpty()) {
+//                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
+//                } else {
+//                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
+//                }
+//                trailerAdapter.notifyDataSetChanged();
+//                Log.wtf("detailsFragment", "trailerSize : " + movieTrailerDataList.size());
+//            }
+//        });
     }
 
-    private void getDate() {
+    private void getData() {
         switch (((AppCompatActivity) getActivity()).getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
             case Configuration.UI_MODE_NIGHT_YES:
                 fragmentMovieDetailsBinding.movieDetailsFragmentTvOverview.setTextColor(Color.WHITE);
@@ -229,12 +277,10 @@ public class MovieDetailsFragment extends BaseFragments {
         if (!isFavorite) {
             insertFavMovie();
             Log.wtf("LoadFavoriteInsert", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
-
         } else {
             removedFavMovie();
             Log.wtf("LoadFavoriteRemove", String.valueOf(LoadBoolean(getActivity(), FAVORITE_ITEM)));
         }
-        System.out.print(LoadBoolean(getActivity(), FAVORITE_ITEM));
     }
 
     private void insertFavMovie() {
@@ -276,16 +322,4 @@ public class MovieDetailsFragment extends BaseFragments {
     public void onDestroy() {
         super.onDestroy();
     }
-
-//    private void saveSharedPref(String key, boolean value) {
-//        SharedPreferences sp = getActivity().getSharedPreferences("KEY", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.putBoolean(key, value);
-//        editor.apply();
-//    }
-
-//    private boolean updateSharedPref(String key) {
-//        SharedPreferences sp = getActivity().getSharedPreferences("KEY", MODE_PRIVATE);
-//        return sp.getBoolean(key, false);
-//    }
 }

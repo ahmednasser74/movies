@@ -18,8 +18,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_fragment_rv_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_fragment_rv"
@@ -27,8 +26,6 @@
             android:layout_height="match_parent"
             android:layout_above="@id/movie_fragment_lin_progress_load_pages"
             android:layout_below="@id/movie_fragment_rv_category"
-            android:layout_marginTop="-3dp"
-            android:layout_marginBottom="-655dp"
             android:scrollbarSize="5dp"
             android:scrollbarStyle="insideOverlay"
             android:scrollbarThumbVertical="@color/colorAccent"

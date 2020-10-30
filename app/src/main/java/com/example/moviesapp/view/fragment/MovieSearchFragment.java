@@ -76,7 +76,7 @@ public class MovieSearchFragment extends BaseFragments {
         queryMovie();
         loadSearchMovie();
 
-        HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
+//        HelperMethod.showKeyboard(getActivity(), fragmentSearchMovieBinding.movieFragmentSvSearch);
         HelperMethod.dismissProgressDialog();
         return view;
     }

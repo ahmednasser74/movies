@@ -25,10 +25,12 @@ public class MovieSearchViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void searchMovie(String query, int page) {
+
         Observable<MoviesWithFilter> observable = getClient()
                 .getMovieWithFilter(API_KEY, query, page)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread());
+
         observable.subscribe(o -> searchMutableLiveData.setValue(o),
                 e -> Log.wtf(TAG, "searchMovie: " + e));
 

@@ -50,29 +50,6 @@ public class MovieViewModel extends ViewModel {
 * w e-> de hyrg3 feha el error lama ykon feh ay errors
 * */
 
-//        Observer<MoviesModel> observer = new Observer<MoviesModel>() {
-//            @Override
-//            public void onSubscribe(Disposable d) {
-//
-//            }
-//
-//            @Override
-//            public void onNext(MoviesModel value) {
-//              when response carrying a data from response which added to our list
-//                movieMutableLiveData.postValue(value);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//            when response has error
-//            Log.wtf(TAG, "onError" + e);
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//              when response complete
-//            }
-//        };
     }
 
     @SuppressLint("CheckResult")

@@ -29,16 +29,16 @@ public interface ApiService {
 
     @GET("search/movie")
     Observable<MoviesWithFilter> getMovieWithFilter(@Query("api_key") String apiKey,
-                                              @Query("query") String search,
-                                              @Query("page") int page);
+                                                    @Query("query") String search,
+                                                    @Query("page") int page);
 
     @GET("movie/{movie_id}/reviews")
-    Call<MoviesReview> getMovieReview(@Path("movie_id") int movieId,
-                                      @Query("api_key") String apiKey);
+    Observable<MoviesReview> getMovieReview(@Path("movie_id") int movieId,
+                                            @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/credits")
-    Call<MovieCast> getMovieCast(@Path("movie_id") int movieId,
-                                 @Query("api_key") String apiKey);
+    Observable<MovieCast> getMovieCast(@Path("movie_id") int movieId,
+                                       @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/videos")
     Call<MoviesTrailer> getMovieTrailer(@Path("movie_id") String movieId,
