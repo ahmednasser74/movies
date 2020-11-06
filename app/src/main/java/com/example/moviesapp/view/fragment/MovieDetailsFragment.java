@@ -141,20 +141,20 @@ public class MovieDetailsFragment extends BaseFragments {
         linearLayoutManagerCast.setOrientation(LinearLayoutManager.HORIZONTAL);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setLayoutManager(linearLayoutManagerCast);
 
-        castAdapter = new CastAdapter((BaseActivity) getActivity(),movieCastDataList);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
     }
 
     private void getCast() {
         movieCastViewModel.movieCastMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MovieCast>() {
             @Override
             public void onChanged(MovieCast movieCast) {
+                castAdapter = new CastAdapter((BaseActivity) getActivity(),movieCast.getCast());
                 movieCastDataList.clear();
-                movieCastDataList.addAll(movieCast.getCast());
+//                movieCastDataList.addAll(movieCast.getCast());
                 castAdapter.notifyDataSetChanged();
 
                 //castAdapter.updateList(movieCast.getCast());
                 Log.d("detailsFragment", "castSize : " + movieCast.getCast().size());
+                fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
             }
         });
     }

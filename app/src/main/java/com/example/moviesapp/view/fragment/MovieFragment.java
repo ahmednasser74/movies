@@ -6,13 +6,10 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +27,6 @@ import com.example.moviesapp.data.model.moviesCategory.MovieCategoryData;
 import com.example.moviesapp.data.model.moviesCategory.MoviesCategory;
 import com.example.moviesapp.data.model.moviesModel.MovieData;
 import com.example.moviesapp.data.model.moviesModel.MoviesModel;
-import com.example.moviesapp.data.model.moviesWithFilter.MoviesWithFilter;
 import com.example.moviesapp.databinding.FragmentMovieBinding;
 import com.example.moviesapp.helper.EndlessRecyclerViewScrollListener;
 import com.example.moviesapp.helper.HelperMethod;
@@ -46,12 +42,6 @@ import java.util.List;
 import java.util.Objects;
 
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.example.moviesapp.data.api.ApiClient.getClient;
-import static com.example.moviesapp.helper.Constant.API_KEY;
 import static com.example.moviesapp.helper.Constant.NOW_PLAYING;
 import static com.example.moviesapp.helper.Constant.POPULAR;
 import static com.example.moviesapp.helper.Constant.TOP_RATED;

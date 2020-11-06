@@ -26,9 +26,9 @@ public class MovieCastViewModel extends ViewModel {
     private CastRepository castRepository;
 
     public void init(int movieId) {
-        if (movieCastMutableLiveData != null) {
-            return;
-        }
+//        if (movieCastMutableLiveData != null) {
+//            return;
+//        }
         castRepository = CastRepository.getInstance();
         movieCastMutableLiveData = castRepository.movieCastMutableLiveData(movieId);
     }

@@ -9,7 +9,7 @@
             type="com.example.moviesapp.data.model.moviesTrailer.MovieTrailerData" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -55,5 +55,5 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
