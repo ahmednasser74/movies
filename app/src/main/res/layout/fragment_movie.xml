@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/movie_fragment_rl_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,23 +14,33 @@
             android:id="@+id/movie_fragment_pb_loading_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_fragment_rv_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movie_fragment_rv"
+            android:id="@+id/movie_fragment_rv_movie"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@id/movie_fragment_lin_progress_load_pages"
             android:layout_below="@id/movie_fragment_rv_category"
             android:scrollbarSize="5dp"
             android:scrollbarStyle="insideOverlay"
             android:scrollbarThumbVertical="@color/colorAccent"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_fragment_rv_category" />
 
         <RelativeLayout
             android:id="@+id/movie_fragment_lin_progress_load_pages"
@@ -37,7 +48,9 @@
             android:layout_height="@dimen/_20sdp"
             android:layout_alignParentBottom="true"
             android:background="@color/albumTransparent"
-            android:visibility="gone">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -50,13 +63,13 @@
             android:id="@+id/movie_fragment_btn_top"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/_8sdp"
             android:background="@drawable/white_circle"
             android:src="@drawable/white_arrow_up_24dp"
-            android:visibility="gone"
-            app:backgroundTint="@color/colorAccent" />
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/movie_fragment_fragment_fab_search"
@@ -64,27 +77,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            app:tint="@color/white"
+            android:layout_margin="@dimen/_8sdp"
             android:gravity="bottom|end"
             android:src="@drawable/red_search_24dp"
-            app:backgroundTint="@color/colorAccent" />
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
 
         <io.github.yavski.fabspeeddial.FabSpeedDial
             android:id="@+id/movie_fragment_bottom_fab_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            app:fabBackgroundTint="@color/colorAccent"
-            android:fontFamily="@font/krona"
             android:gravity="bottom|start"
             app:backgroundTint="@color/black"
+            app:fabBackgroundTint="@color/colorAccent"
             app:fabDrawable="@drawable/red_filter"
             app:fabGravity="bottom_start"
             app:fabMenu="@menu/fab_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:miniFabBackgroundTint="@color/white"
             app:miniFabDrawableTint="?attr/colorPrimaryDark"
             app:miniFabTitleTextColor="@color/black" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

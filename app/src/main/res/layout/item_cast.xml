@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_110sdp"
         android:orientation="vertical">
@@ -19,12 +20,14 @@
             android:backgroundTint="@color/gray_darker"
             app:cardCornerRadius="@dimen/_40sdp"
             app:cardElevation="@dimen/_5sdp"
-            app:elevation="5dp">
+            app:elevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ProgressBar
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_10sdp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
             <ImageView
                 android:id="@+id/item_movie_cast_img_actor"
@@ -38,10 +41,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/card"
-            android:layout_centerHorizontal="true"
             android:fontFamily="@font/cairo"
             android:text="name"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_11ssp" />
-    </RelativeLayout>
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

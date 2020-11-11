@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_sheet_language_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_300sdp"
@@ -12,26 +13,30 @@
         android:layout_height="match_parent"
         android:fadeScrollbars="false">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp">
 
             <ImageView
+                android:id="@+id/img"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_4sdp"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/_8sdp"
                 android:background="@drawable/white_shape"
-                android:backgroundTint="#605F5F" />
+                android:backgroundTint="#605F5F"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
 
             <LinearLayout
                 android:id="@+id/lin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/img">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_img"
@@ -123,12 +128,12 @@
                 android:layout_below="@id/lin"
                 android:layout_marginHorizontal="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/lin">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/_8sdp"
                     android:background="@drawable/white_shape"
@@ -145,8 +150,7 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </LinearLayout>

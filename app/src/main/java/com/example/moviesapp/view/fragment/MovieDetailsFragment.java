@@ -56,9 +56,6 @@ public class MovieDetailsFragment extends BaseFragments {
     private ReviewAdapter reviewAdapter;
     private TrailerAdapter trailerAdapter;
     private CastAdapter castAdapter;
-    private List<MovieReviewData> movieReviewList = new ArrayList<>();
-    private List<MovieTrailerData> movieTrailerDataList = new ArrayList<>();
-    private List<MovieCastData> movieCastDataList = new ArrayList<>();
 
     private HomeCycleActivity homeCycleActivity;
     public MovieData movieData;
@@ -125,17 +122,9 @@ public class MovieDetailsFragment extends BaseFragments {
         linearLayoutManagerReview.setOrientation(LinearLayoutManager.HORIZONTAL);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvReview.setLayoutManager(linearLayoutManagerReview);
 
-        reviewAdapter = new ReviewAdapter((BaseActivity) getActivity(), movieReviewList);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvReview.setAdapter(reviewAdapter);
-
-
         linearLayoutManagerTrailer = new LinearLayoutManager(getActivity());
         linearLayoutManagerTrailer.setOrientation(LinearLayoutManager.HORIZONTAL);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setLayoutManager(linearLayoutManagerTrailer);
-
-        trailerAdapter = new TrailerAdapter((BaseActivity) getActivity(), movieTrailerDataList);
-        fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setAdapter(trailerAdapter);
-
 
         linearLayoutManagerCast = new LinearLayoutManager(getActivity());
         linearLayoutManagerCast.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -147,8 +136,8 @@ public class MovieDetailsFragment extends BaseFragments {
         movieCastViewModel.movieCastMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MovieCast>() {
             @Override
             public void onChanged(MovieCast movieCast) {
-                castAdapter = new CastAdapter((BaseActivity) getActivity(),movieCast.getCast());
-                movieCastDataList.clear();
+                castAdapter = new CastAdapter((BaseActivity) getActivity(), movieCast.getCast());
+//                movieCastDataList.clear();
 //                movieCastDataList.addAll(movieCast.getCast());
                 castAdapter.notifyDataSetChanged();
 
@@ -164,14 +153,18 @@ public class MovieDetailsFragment extends BaseFragments {
             @Override
             public void onChanged(MoviesReview moviesReview) {
                 try {
-                    movieReviewList.addAll(moviesReview.getResults());
+                    reviewAdapter = new ReviewAdapter((BaseActivity) getActivity(), moviesReview.getResults());
+
+//                    movieReviewList.clear();
+//                    movieReviewList.addAll(moviesReview.getResults());
                     if (moviesReview.getResults().isEmpty()) {
                         fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.VISIBLE);
                     } else {
                         fragmentMovieDetailsBinding.movieDetailsFragmentTvReviewEmpty.setVisibility(View.GONE);
                     }
                     reviewAdapter.notifyDataSetChanged();
-                    Log.wtf("detailsFragment", "reviewSize : " + movieTrailerDataList.size());
+                    fragmentMovieDetailsBinding.movieDetailsFragmentRvReview.setAdapter(reviewAdapter);
+                    Log.wtf("detailsFragment", "reviewSize : " + moviesReview.getResults().size());
 
                 } catch (Exception e) {
 
@@ -181,60 +174,24 @@ public class MovieDetailsFragment extends BaseFragments {
     }
 
     private void getTrailer() {
-
         movieTrailerViewModel.trailerDataMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesTrailer>() {
             @Override
             public void onChanged(MoviesTrailer moviesTrailer) {
-                movieTrailerDataList.addAll(moviesTrailer.getResults());
-                trailerAdapter.notifyDataSetChanged();
-                if (movieTrailerDataList.isEmpty()) {
-                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
-                } else {
-                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
+                try {
+                    trailerAdapter = new TrailerAdapter((BaseActivity) getActivity(), moviesTrailer.getResults());
+                    if (moviesTrailer.getResults().isEmpty()) {
+                        fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
+                    } else {
+                        fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
+                    }
+                    trailerAdapter.notifyDataSetChanged();
+                    fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setAdapter(trailerAdapter);
+                    Log.wtf("detailsFragment", "trailerSize : " + moviesTrailer.getResults().size());
+                } catch (Exception e) {
+                    Log.wtf("trailerException", e.toString());
                 }
-                Log.wtf("detailsFragment", "trailerSize : " + movieTrailerDataList.size());
             }
         });
-        //        getClient().getMovieTrailer(String.valueOf(movieData.getId()), API_KEY).enqueue(new Callback<MoviesTrailer>() {
-//            @Override
-//            public void onResponse(Call<MoviesTrailer> call, Response<MoviesTrailer> response) {
-//                try {
-//                    if (response.body() != null) {
-//                        movieTrailerDataList.addAll(response.body().getResults());
-//                        trailerAdapter.notifyDataSetChanged();
-//                        if (movieTrailerDataList.isEmpty()) {
-//                            fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
-//                        } else {
-//                            fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
-//                        }
-//                        Log.wtf("detailsFragment", "trailerSize : " + movieTrailerDataList.size());
-//                    }
-//                } catch (Exception e) {
-//                    Log.wtf("trailerException", e.toString());
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<MoviesTrailer> call, Throwable t) {
-//                Log.wtf("trailerThrowable", t.toString());
-//            }
-//        });
-//
-//        TrailerRepository.trailerDataMutableLiveData(String.valueOf(movieData.getId()));
-
-//        movieTrailerViewModel.trailerDataMutableLiveData(movieData.getId().toString()).observe(getActivity(), new Observer<MoviesTrailer>() {
-//            @Override
-//            public void onChanged(MoviesTrailer moviesTrailer) {
-//                movieTrailerDataList.clear();
-//                movieTrailerDataList.addAll(moviesTrailer.getResults());
-//                if (moviesTrailer.getResults().isEmpty()) {
-//                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.VISIBLE);
-//                } else {
-//                    fragmentMovieDetailsBinding.movieDetailsFragmentTvTrailerEmpty.setVisibility(View.GONE);
-//                }
-//                trailerAdapter.notifyDataSetChanged();
-//                Log.wtf("detailsFragment", "trailerSize : " + movieTrailerDataList.size());
-//            }
-//        });
     }
 
     private void getData() {

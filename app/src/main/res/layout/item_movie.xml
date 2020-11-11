@@ -29,7 +29,7 @@
                 android:transitionName="fragment_transition" />
 
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/item_movie_rel_progress_background"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
@@ -49,13 +49,16 @@
                     android:id="@+id/item_movie_tv_pb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:fontFamily="@font/cairo"
                     android:text="5/10"
                     android:textColor="#950C0C"
                     android:textSize="@dimen/_7ssp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,30 +93,34 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top">
 
                 <ImageView
-                    android:id="@+id/item_movie_img_remove"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:background="@drawable/white_shape"
-                    android:src="@drawable/red_close" />
-
-                <ImageView
                     android:id="@+id/item_movie_img_share"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/item_movie_img_remove"
                     android:background="@drawable/white_shape"
                     android:padding="@dimen/_2sdp"
-                    android:src="@drawable/ic_share" />
-            </RelativeLayout>
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:src="@drawable/ic_share"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/item_movie_img_remove"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/item_movie_img_remove"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/white_shape"
+                    android:src="@drawable/red_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </layout>

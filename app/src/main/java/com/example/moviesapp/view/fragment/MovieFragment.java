@@ -87,11 +87,11 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
 
 //        HelperMethod.showProgressDialog(getActivity(), "");
 
-        imageBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRv, fragmentMovieBinding.movieFragmentBtnTop);
-        floatBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRv, fragmentMovieBinding.movieFragmentFragmentFabSearch);
-        floatMenuBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRv, fragmentMovieBinding.movieFragmentBottomFabMenu);
+        imageBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRvMovie, fragmentMovieBinding.movieFragmentBtnTop);
+        floatBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRvMovie, fragmentMovieBinding.movieFragmentFragmentFabSearch);
+        floatMenuBtnHidden(getActivity(), fragmentMovieBinding.movieFragmentRvMovie, fragmentMovieBinding.movieFragmentBottomFabMenu);
 
-        movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
+        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
 
         setLayout();
         initFabMenu();
@@ -113,9 +113,9 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
     private void setLayout() {
         gridLayoutManagerMovie = new GridLayoutManager(getActivity(), 2);
         gridLayoutManagerMovie.setOrientation(LinearLayoutManager.VERTICAL);
-        fragmentMovieBinding.movieFragmentRv.setLayoutManager(gridLayoutManagerMovie);
+        fragmentMovieBinding.movieFragmentRvMovie.setLayoutManager(gridLayoutManagerMovie);
 
-        fragmentMovieBinding.movieFragmentRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManagerMovie) {
+        fragmentMovieBinding.movieFragmentRvMovie.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManagerMovie) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 paginationPage++;
@@ -124,7 +124,7 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
             }
         });
         movieAdapter = new MovieAdapter((BaseActivity) getActivity(), movieDataList);
-        fragmentMovieBinding.movieFragmentRv.setAdapter(movieAdapter);
+        fragmentMovieBinding.movieFragmentRvMovie.setAdapter(movieAdapter);
         movieViewModel.getMovies(paginationPage, POPULAR);
 
 
@@ -152,7 +152,6 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
     private void loadMovieCategory() {
         movieCategoryDataList.add(new MovieCategoryData(0, "ALL"));
 
-        movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
         movieViewModel.movieCategoryMutableLiveData().observe(getActivity(), new Observer<MoviesCategory>() {
             @Override
             public void onChanged(MoviesCategory moviesCategory) {
@@ -224,7 +223,7 @@ public class MovieFragment extends BaseFragments implements OnNetworkListener {
         fragmentMovieBinding.movieFragmentBtnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentMovieBinding.movieFragmentRv.smoothScrollToPosition(0);
+                fragmentMovieBinding.movieFragmentRvMovie.smoothScrollToPosition(0);
             }
         });
 

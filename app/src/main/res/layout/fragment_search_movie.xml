@@ -7,48 +7,45 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <SearchView
-            android:iconifiedByDefault="false"
-            android:queryHint="Search"
             android:id="@+id/movie_fragment_sv_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_6sdp"
-            android:background="@drawable/white_stroke_shape" />
+            android:background="@drawable/white_stroke_shape"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/movie_fragment_tv_no_movie_matched"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
+            android:fontFamily="@font/cairo"
             android:text="No Movies Matched"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_20ssp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_movie_fragment_rv_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/movie_fragment_sv_search"
+            android:layout_height="wrap_content"
             android:scrollbarSize="5dp"
             android:scrollbarStyle="outsideInset"
             android:scrollbarThumbVertical="@color/colorAccent"
-            android:scrollbars="vertical" />
-
-        <TextView
-            android:id="@+id/search_movie_fragment_tv_no_result"
-            android:fontFamily="@font/cairo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="No Results  Matched"
-            android:textColor="@color/colorAccent"
-            android:visibility="gone"
-            android:textSize="@dimen/_20sdp" />
-    </RelativeLayout>
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_fragment_sv_search" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
