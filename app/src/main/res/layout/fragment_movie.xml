@@ -64,10 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/_8sdp"
+            app:tint="@color/white"
             android:gravity="bottom|end"
             android:src="@drawable/red_search_24dp"
-            app:backgroundTint="@color/white" />
+            app:backgroundTint="@color/colorAccent" />
 
         <io.github.yavski.fabspeeddial.FabSpeedDial
             android:id="@+id/movie_fragment_bottom_fab_menu"
@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
+            app:fabBackgroundTint="@color/colorAccent"
             android:fontFamily="@font/krona"
             android:gravity="bottom|start"
             app:backgroundTint="@color/black"
