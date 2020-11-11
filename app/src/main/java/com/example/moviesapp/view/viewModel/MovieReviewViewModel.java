@@ -7,8 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.moviesapp.data.model.movieCast.MovieCast;
 import com.example.moviesapp.data.model.moviesReview.MoviesReview;
 import com.example.moviesapp.data.model.moviesTrailer.MoviesTrailer;
+import com.example.moviesapp.view.repository.CastRepository;
+import com.example.moviesapp.view.repository.ReviewRepository;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,20 +24,17 @@ import static com.example.moviesapp.helper.Constant.API_KEY;
 public class MovieReviewViewModel extends ViewModel {
 
 
-    private MutableLiveData<MoviesReview> moviesReviewMutableLiveData = new MutableLiveData<>();
+    private LiveData<MoviesReview> moviesReviewLiveData;
+    private ReviewRepository reviewRepository;
 
-    @SuppressLint("CheckResult")
-    public MutableLiveData<MoviesReview> moviesReviewMutableLiveData(int movieId) {
+    public void init(int movieId) {
+        reviewRepository= ReviewRepository.getInstance();
+        moviesReviewLiveData = reviewRepository.moviesReviewMutableLiveData(movieId);
+    }
 
-        Observable<MoviesReview> observable =
-                getClient().getMovieReview(movieId, API_KEY)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-
-        observable.subscribe(o -> moviesReviewMutableLiveData.postValue(o),
-                e -> Log.wtf(TAG, String.valueOf(e)));
-
-        return moviesReviewMutableLiveData;
+    public LiveData<MoviesReview> movieCastMutableLiveData(int movieId){
+        init(movieId);
+        return moviesReviewLiveData;
     }
 
 }

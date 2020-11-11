@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.moviesapp.data.model.moviesTrailer.MoviesTrailer;
+import com.example.moviesapp.view.repository.TrailerRepository;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,28 +17,16 @@ import static com.example.moviesapp.helper.Constant.API_KEY;
 
 public class MovieTrailerViewModel extends ViewModel {
 
-    private MutableLiveData<MoviesTrailer> trailerDataMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<MoviesTrailer> trailerDataMutableLiveData;
+    private TrailerRepository trailerRepository;
 
-    public MutableLiveData<MoviesTrailer> trailerDataMutableLiveData(int movieId) {
-        getClient().getMovieTrailer(String.valueOf(movieId), API_KEY).enqueue(new Callback<MoviesTrailer>() {
-            @Override
-            public void onResponse(Call<MoviesTrailer> call, Response<MoviesTrailer> response) {
-                try {
-                    if (response.body() != null) {
-                        trailerDataMutableLiveData.postValue(response.body());
-                    }
-                } catch (Exception e) {
-                    Log.wtf("trailerException", e.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MoviesTrailer> call, Throwable t) {
-                Log.wtf("trailerThrowable", t.toString());
-            }
-        });
-        return trailerDataMutableLiveData;
+    private void init(int movieId) {
+        trailerRepository = TrailerRepository.getInstance();
+        trailerDataMutableLiveData = trailerRepository.moviesTrailerMutableLiveData(movieId);
     }
 
-
+    public MutableLiveData<MoviesTrailer> moviesTrailerMutableLiveData(int movieId) {
+        init(movieId);
+        return trailerDataMutableLiveData;
+    }
 }

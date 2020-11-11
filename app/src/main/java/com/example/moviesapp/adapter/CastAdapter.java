@@ -1,29 +1,23 @@
 package com.example.moviesapp.adapter;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviesapp.R;
 import com.example.moviesapp.data.model.castDetails.CastDetails;
 import com.example.moviesapp.data.model.movieCast.MovieCastData;
 import com.example.moviesapp.databinding.ItemCastBinding;
-import com.example.moviesapp.helper.HelperMethod;
 import com.example.moviesapp.view.acitivty.base.BaseActivity;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;

@@ -56,6 +56,9 @@ public class MovieDetailsFragment extends BaseFragments {
     private ReviewAdapter reviewAdapter;
     private TrailerAdapter trailerAdapter;
     private CastAdapter castAdapter;
+    private List<MovieReviewData> movieReviewList = new ArrayList<>();
+    private List<MovieTrailerData> movieTrailerDataList = new ArrayList<>();
+    private List<MovieCastData> movieCastDataList = new ArrayList<>();
 
     private HomeCycleActivity homeCycleActivity;
     public MovieData movieData;
@@ -126,6 +129,9 @@ public class MovieDetailsFragment extends BaseFragments {
         linearLayoutManagerTrailer.setOrientation(LinearLayoutManager.HORIZONTAL);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setLayoutManager(linearLayoutManagerTrailer);
 
+        castAdapter = new CastAdapter((BaseActivity) getActivity(), movieCastDataList);
+        fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
+
         linearLayoutManagerCast = new LinearLayoutManager(getActivity());
         linearLayoutManagerCast.setOrientation(LinearLayoutManager.HORIZONTAL);
         fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setLayoutManager(linearLayoutManagerCast);
@@ -136,25 +142,23 @@ public class MovieDetailsFragment extends BaseFragments {
         movieCastViewModel.movieCastMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MovieCast>() {
             @Override
             public void onChanged(MovieCast movieCast) {
-                castAdapter = new CastAdapter((BaseActivity) getActivity(), movieCast.getCast());
-//                movieCastDataList.clear();
-//                movieCastDataList.addAll(movieCast.getCast());
+                movieCastDataList.clear();
+                movieCastDataList.addAll(movieCast.getCast());
                 castAdapter.notifyDataSetChanged();
 
-                //castAdapter.updateList(movieCast.getCast());
-                Log.d("detailsFragment", "castSize : " + movieCast.getCast().size());
-                fragmentMovieDetailsBinding.movieDetailsFragmentRvCast.setAdapter(castAdapter);
+//                castAdapter.updateList(movieCast.getCast());
+                Log.d("detailsFragment", "castSize : " + movieCastDataList.size());
             }
         });
     }
 
     private void getReview() {
-        movieReviewViewModel.moviesReviewMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesReview>() {
+        movieReviewViewModel.movieCastMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesReview>() {
             @Override
             public void onChanged(MoviesReview moviesReview) {
                 try {
-                    reviewAdapter = new ReviewAdapter((BaseActivity) getActivity(), moviesReview.getResults());
 
+                    reviewAdapter = new ReviewAdapter((BaseActivity) getActivity(), moviesReview.getResults());
 //                    movieReviewList.clear();
 //                    movieReviewList.addAll(moviesReview.getResults());
                     if (moviesReview.getResults().isEmpty()) {
@@ -174,7 +178,7 @@ public class MovieDetailsFragment extends BaseFragments {
     }
 
     private void getTrailer() {
-        movieTrailerViewModel.trailerDataMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesTrailer>() {
+        movieTrailerViewModel.moviesTrailerMutableLiveData(movieData.getId()).observe(getActivity(), new Observer<MoviesTrailer>() {
             @Override
             public void onChanged(MoviesTrailer moviesTrailer) {
                 try {
@@ -187,6 +191,7 @@ public class MovieDetailsFragment extends BaseFragments {
                     trailerAdapter.notifyDataSetChanged();
                     fragmentMovieDetailsBinding.movieDetailsFragmentRvTrailer.setAdapter(trailerAdapter);
                     Log.wtf("detailsFragment", "trailerSize : " + moviesTrailer.getResults().size());
+
                 } catch (Exception e) {
                     Log.wtf("trailerException", e.toString());
                 }
